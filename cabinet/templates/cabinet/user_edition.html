@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Регистрация</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/media_queries.css' %}">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="/media/images/icon.png" type="image">
+</head>
+<body>
+
+{% include 'home/header.html' %}
+
+
+<form method="POST" enctype="multipart/form-data" class="reg_body">
+{% csrf_token %}
+{{form}}
+<input type="submit" name="">
+</form>
+
+<style type="text/css">
+
+
+</style>
+<script type="text/javascript" src="{% static 'js/needed.js' %}"></script>
+</body>
+</html>
+

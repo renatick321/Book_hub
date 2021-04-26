@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>LBO</title>
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="/media/images/icon.png" type="image">
+</head>
+<body>
+
+{% include "home/header.html" %}
+<div class="main_column element">
+
+{% block main_content %}{% endblock %}
+
+</div>
+
+
+<div class="second_column">
+	{% block second_column %}
+	<div href="http://127.0.0.1:8000/book/2/" class="discount element">
+		<h1>Место для рекламы</h1>
+	</div>
+	{% endblock %}
+</div>
+
+<script type="text/javascript" src="{% static 'js/js.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/needed.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{chapter.title}}</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/media_queries.css' %}">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="/media/images/icon.png" type="image">
+</head>
+<body>
+{% include "home/header.html" %}
+
+<pre class="text">
+	<h1>Глава {{chapter.num}}. {{chapter.title}}</h1>
+	{{chapter.txt| safe}}
+</pre>
+
+<div class="next_and_right">
+{% if back_ %}
+<a class="button" href="{% url 'home:chapter' back_.book_id back_.num %}" style="left: 0">Предыдущая</a>
+{% endif %}
+
+{% if next_ %}
+<a class="button" href="{% url 'home:chapter' next_.book_id next_.num %}" style="right: 0">Следующая</a>
+{% endif %}
+</div>
+
+<style type="text/css">
+	body{
+		background: white;
+	}
+</style>
+
+<script type="text/javascript" src="{% static 'js/needed.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+</body>
+</html>

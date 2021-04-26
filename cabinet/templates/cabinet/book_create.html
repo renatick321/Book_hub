@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{human.username}}</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/media_queries.css' %}">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="/media/images/icon.png" type="image">
+</head>
+<body>
+
+{% include 'home/header.html' %}
+
+<div class="book_wraper">
+	<input type="text" name="title" class="title book_field">
+	<input type="text" name="second_author" class="second_author book_field">
+	<input type="text" name="third_author" class="third_author book_field">
+	<input type="text" name="description" class="description book_field">
+	<input type="text" name="price" class="price book_field">
+	<input type="text" name="tags" class="tags book_field">
+	<input type="text" name="genres" class="genres book_field">
+	<input type="text" name="series" class="series book_field">
+</div>
+
+<style type="text/css">
+.book_wraper{
+	width: 560px;
+	max-width: 100%;
+	box-sizing: border-box;
+	height: 100vh;
+	background: #E6E6E6;
+	display: grid;
+	position: relative;
+	margin: auto;
+	grid-template-columns: 270px 270px;
+	padding: 70px 5px 0px;
+}
+
+.book_field{
+	height: 30px;
+	font-size: 26px;
+	margin: 0 2.5px;
+}
+
+.description{
+	margin: 0
+}
+
+.price{
+	background: white;
+}
+
+.series{
+	margin: 0;
+}
+</style>
+
+<script type="text/javascript" src="{% static 'js/needed.js' %}"></script>
+</body>
+</html>

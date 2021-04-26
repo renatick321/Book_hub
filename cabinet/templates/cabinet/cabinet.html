@@ -1,0 +1,192 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{human.username}}</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/media_queries.css' %}">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="/media/images/icon.png" type="image">
+</head>
+<body>
+
+{% include 'home/header.html' %}
+
+<div class="container">
+	<div class="element for_user_img"><!--Первая страница-->
+		<img src="{{human.image.url}}" alt="" class="user_img">
+		{% if edit %}
+		<a href="{% url 'cabinet:edit_user' %}" class="edit back_inf">Редактировать</a>
+		{% else %}
+		{% if in_friends %}
+		<a href="{% url 'cabinet:unsubscribe' human.id %}" class="edit back_inf">Отписаться</a>
+		{% else %}
+		<a href="{% url 'cabinet:add_friend' human.id %}" class="edit back_inf">Подписаться</a>
+		{% endif %}
+		{% endif %}
+		<div class="back_inf" style="margin: 10px 0 4px 0">Роль: {% if human.is_superuser %}Писателем{% else %}Читатель{% endif %}</div>
+	</div>
+	<div class="fixed_inf element">
+	 	<div class="main_inf">
+	 		<p class="username">{{human.username}}</p>
+	 		<div class="user_status back_inf">{{human.status}}</div>
+	 		<div class="manda_inf">
+ 				<ul class="fixed_inf_row" style="border-top: 1px solid lightgrey; padding-top: 15px;">
+ 					<li class="th1">День рождения:</li>
+ 					<li class="th2">{{human.birth_date}}</li>
+ 				</ul>
+ 				<ul class="fixed_inf_row">
+ 					<li class="th1">День регистрации:</li>
+ 					<li class="th2">{{human.date_joined}}</li>
+ 				</ul>
+ 				<ul class="fixed_inf_row" style="border-bottom: 1px solid lightgrey;">
+ 					<li class="th1">Место проживания:</li>
+ 					<li class="th2">{{human.location}}</li>
+ 				</ul>
+	 		</div>
+	 		<header class="user_nav">
+	 			<nav>
+		 			<div class="user_section" onclick="user_nav(0)">Профиль</div>
+			 		<div class="user_section" onclick="user_nav(1)">Произведения</div>
+			 		<div class="user_section" onclick="user_nav(2)">Библеотека</div>
+			 		<div class="user_section" onclick="user_nav(3)">Посты</div>
+			 	</nav>
+		 	</header>
+	 	</div>
+	</div> 
+	{% if human.about_me %}<div class="flex_row about_me element user_full">{{human.about_me}}</div>{% endif %}
+	<div class="favorite flex_row element">
+		<div class="friend_table">
+			<div style="margin-bottom: 20px;">
+				<div class="span">
+					<h3 class="friends_section" onclick="friends_nav(0)">Читатели</h3>
+				</div>
+				<div class="span" style="margin-left: 10px;">
+					<h3 class="friends_section" onclick="friends_nav(1)">Подписки</h3>
+				</div>
+			</div>
+			<div class="friends">
+				{% for friend in readers %} 
+					<a href="{% url 'cabinet:cabinet' friend.user.id %}" class="friend">
+						<img src="{{friend.user.image.url}}" alt="" class="friend_img">
+						<div class="friend_name">{{friend.user.username}}</div>
+					</a>
+				{% endfor %}
+			</div>
+			<div class="friends">
+				{% for friend in subscriptions %} 
+					<a href="{% url 'cabinet:cabinet' friend.id %}" class="friend">
+						<img src="{{friend.image.url}}" alt="" class="friend_img">
+						<div class="friend_name">{{friend.username}}</div>
+					</a>
+				{% endfor %}
+			</div>
+			<a href="#" style="position: relative; left: 80px; margin-top: 10px; display: block;">Больше</a>
+		</div>
+		<div><h1 style="text-align: center;">Лучшее по мнению пользователя</h1>
+		<div class="slider_wraper">
+			{% if first_best %}
+			<div class="favorite_book">
+				<a href="{% url 'home:book' first_best.id %}"><img class="img_slide" src="{{first_best.image.url}}" alt=""></a>
+				<div class="back_inf">{{first_best.author_name}}</div>
+			</div>
+			{% endif %}
+			{% if second_best %}
+			<div class="favorite_book">
+				<a href="{% url 'home:book' second_best.id %}"><img class="img_slide" src="{{second_best.image.url}}" alt=""></a>
+				<div class="back_inf">{{second_best.author_name}}</div>
+			</div>
+			{% endif %}
+			{% if third_best %}
+			<div class="favorite_book">
+				<a href="{% url 'home:book' third_best.id %}"><img class="img_slide" src="{{third_best.image.url}}" alt=""></a>
+				<div class="back_inf">{{third_best.author_name}}</div>
+			</div>
+			{% endif %}
+			{% if fourth_best %}
+			<div class="favorite_book">
+				<a href="{% url 'home:book' fourth_best.id %}"><img class="img_slide" src="{{fourth_best.image.url}}" alt=""></a>
+				<div class="back_inf">{{fourth_best.author_name}}</div>
+			</div>
+			{% endif %}
+			{% if fifth_best %}
+			<div class="favorite_book">
+				<a href="{% url 'home:book' fifth_best.id %}"><img class="img_slide" src="{{fifth_best.image.url}}" alt=""></a>
+				<div class="back_inf">{{fifth_best.author_name}}</div>
+			</div>
+			{% endif %}
+		</div></div>
+	</div> 
+	{% if written %}<div class="library flex_row element"><!--Написанные книги-->
+		<h1>Написанные книги</h1>
+		{% for book in written %}
+			<div class="favorite_book book_m">
+				<a href="{% url 'home:book' book.id %}"><img class="img_slide" src="{{book.image.url}}" alt=""></a>
+				<div class="back_inf">{{book.author_name}}</div>
+			</div>
+		{% endfor %}
+	</div>{% endif %}
+	{% if read %}<div class="library flex_row element"><!--Библеотека-->
+		<h1>Библеотека</h1>
+		{% for book in read %}
+			<div class="favorite_book book_m">
+				<a href="{% url 'home:book' book.id %}"><img class="img_slide" src="{{book.image.url}}" alt=""></a>
+				<div class="back_inf">{{book.author_name}}</div>
+			</div>
+		{% endfor %}
+	</div>{% endif %}
+	{% if read %}<div class="library flex_row element"><!--Посты-->
+		<h1>Посты</h1>
+		{% for book in read %}
+			<div class="favorite_book book_m">
+				<a href="{% url 'home:book' book.id %}"><img class="img_slide" src="{{book.image.url}}" alt=""></a>
+				<div class="back_inf">{{book.author_name}}</div>
+			</div>
+		{% endfor %}
+	</div>{% endif %}
+</div>
+
+{% include 'home/footer.html' %}
+
+<script type="text/javascript" src="{% static 'js/needed.js' %}"></script>
+<script type="text/javascript">
+window.onload = function() {
+	friends_nav(0);	
+	user_nav(0);
+}
+
+function user_nav(n) {//навигация по Библеотека Произведения ...
+	let a = document.getElementsByClassName('user_section');
+	let m = document.getElementsByClassName('flex_row');
+	let d = ['flex', 'inline-block', 'inline-block', 'inline-block']
+	for (var i = 0; i <= 3; i++) {
+		a[i].style.color = 'darkgrey';
+	}
+	a[n].style.color = 'black';
+	if (n == 0) {
+		for (var i = 0; i < 3; i++) {
+			m[i].style.display = d[i];
+		}
+	}
+	else{
+		for (var i = 0; i <= 3; i++) {
+			m[i].style.display = 'none';
+		}
+	}
+	m[n].style.display = d[n]
+	document.getElementsByClassName('about_me')[0].style.display = 'none';
+}
+
+function friends_nav(n) {
+	let section = document.getElementsByClassName('friends_section');
+	let  friends = document.getElementsByClassName('friends');
+	let index = 1 - n;
+	friends[index].style.display = 'none';
+	friends[n].style.display = 'block';
+	section[index].style.color = 'grey';
+	section[n].style.color = 'black';
+}
+
+</script>
+</body>
+</html>
